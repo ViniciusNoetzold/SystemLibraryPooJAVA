@@ -1,56 +1,113 @@
-import java.time.LocalDate;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class Biblioteca {
-    private List<Livro> acervo;
+    private ArrayList<Livro> livros;
 
     public Biblioteca() {
-        this.acervo = new ArrayList<>();
+        this.livros = new ArrayList<>();
     }
 
-    public Livro adicionar(Livro livro) throws Exception {
-        if (livro == null)
-            throw new Exception("Livro não pode ser nulo");
-
-        livro.setTitulo(livro.getTitulo().trim());
-        if (livro.getTitulo() == null || livro.getTitulo().isEmpty())
-            throw new Exception("Título não pode ser em branco");
-
-        livro.setAutor(livro.getAutor().trim());
-        if (livro.getAutor() == null || livro.getAutor().isEmpty())
-            throw new Exception("Autor não pode ser em branco");
-
-        int anoAtual = LocalDate.now().getYear();
-        if (livro.getAnoPublicacao() < 1900
-                || livro.getAnoPublicacao() > anoAtual)
-            throw new Exception("Ano de publicação deve estar entre 1900 e o ano atual");
-
-        if (livro.getNumeroPaginas() <= 0)
-            throw new Exception("Número de páginas deve ser maior que zero");
-
-        acervo.add(livro);
-        return livro;
-    }
-
-    public List<Livro> pesquisar() {
-        return acervo;
-    }
-
-    public List<Livro> pesquisar(String titulo) {
-        return pesquisar(titulo, null);
-    }
-
-    public List<Livro> pesquisar(String titulo, String autor) {
-        List<Livro> livrosEncontrados = new ArrayList<>();
-        for (Livro livro : acervo) {
-            if (livro.getTitulo().toLowerCase().contains(titulo.toLowerCase())) {
-                if (autor == null ||
-                        livro.getAutor().toLowerCase().contains(autor.toLowerCase()))
-                    livrosEncontrados.add(livro);
+    // Evita duplicidade: titulo + autor + ano
+    public void adicionar(Livro livro) {
+        for (Livro l : livros) {
+            if (l.getTitulo().equalsIgnoreCase(livro.getTitulo()) &&
+                l.getAutor().equalsIgnoreCase(livro.getAutor()) &&
+                l.getAno() == livro.getAno()) {
+                System.out.println("Esse livro já está cadastrado!");
+                return;
             }
         }
-        return livrosEncontrados;
+        livros.add(livro);
+        System.out.println("Livro adicionado com sucesso!");
     }
 
+    public void listar() {
+        if (livros.isEmpty()) {
+            System.out.println("Nenhum livro cadastrado.");
+        } else {
+            System.out.println("\n--- Lista de livros ---");
+            for (int i = 0; i < livros.size(); i++) {
+                System.out.println(i + " - " + livros.get(i));
+            }
+        }
+    }
+
+    public void remover(int indice) {
+        if (indice >= 0 && indice < livros.size()) {
+            Livro removed = livros.remove(indice);
+            System.out.println("Livro removido com sucesso: " + removed);
+        } else {
+            System.out.println("Índice inválido.");
+        }
+    }
+
+    public void atualizar(int indice, Livro novoLivro) {
+        if (indice < 0 || indice >= livros.size()) {
+            System.out.println("Índice inválido.");
+            return;
+        }
+
+        // Evita criar duplicidade ao atualizar (compara com os outros índices)
+        for (int i = 0; i < livros.size(); i++) {
+            if (i == indice) continue;
+            Livro l = livros.get(i);
+            if (l.getTitulo().equalsIgnoreCase(novoLivro.getTitulo()) &&
+                l.getAutor().equalsIgnoreCase(novoLivro.getAutor()) &&
+                l.getAno() == novoLivro.getAno()) {
+                System.out.println("Atualização cancelada: já existe outro livro com mesmo título, autor e ano.");
+                return;
+            }
+        }
+
+        livros.set(indice, novoLivro);
+        System.out.println("Livro atualizado com sucesso!");
+    }
+
+    public int contarLivros() {
+        return livros.size();
+    }
+
+    public void pesquisarPorAno(int anoInicio, int anoFim) {
+        if (anoInicio > anoFim) {
+            int tmp = anoInicio;
+            anoInicio = anoFim;
+            anoFim = tmp;
+        }
+
+        boolean encontrado = false;
+        for (int i = 0; i < livros.size(); i++) {
+            Livro l = livros.get(i);
+            if (l.getAno() >= anoInicio && l.getAno() <= anoFim) {
+                System.out.println(i + " - " + l);
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado) {
+            System.out.println("Nenhum livro encontrado nesse intervalo.");
+        }
+    }
+
+    public Livro maisAntigo() {
+        if (livros.isEmpty()) return null;
+        Livro antigo = livros.get(0);
+        for (Livro l : livros) {
+            if (l.getAno() < antigo.getAno()) {
+                antigo = l;
+            }
+        }
+        return antigo;
+    }
+
+    public Livro maisNovo() {
+        if (livros.isEmpty()) return null;
+        Livro novo = livros.get(0);
+        for (Livro l : livros) {
+            if (l.getAno() > novo.getAno()) {
+                novo = l;
+            }
+        }
+        return novo;
+    }
 }
