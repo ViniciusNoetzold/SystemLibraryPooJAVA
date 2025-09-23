@@ -57,8 +57,6 @@ O menu principal será exibido no console, e o sistema estará pronto para uso.
 
 👨‍💻 Autor
 <p>
-<img src="https://avatars.githubusercontent.com/u/10279113?v=4" width="100px;" alt="Foto de Perfil Genérica"/>
-<br />
 <sub>
 <b>Vinícius de Almeida Noetzold</b>
 <br />
