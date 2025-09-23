@@ -1,74 +1,67 @@
-📚 Gerenciador de Acervo Cultural
-Este é um sistema simples de gerenciamento de biblioteca, desenvolvido em Java, que opera via console. Ele permite ao usuário realizar operações básicas de cadastro, consulta, atualização e remoção de livros em um acervo, diferenciando entre obras físicas e digitais.
+<div align="center">
 
-✨ Funcionalidades
-O sistema oferece um menu interativo com as seguintes opções:
+📚 Gerenciador de Acervo Cultural 📚
+<p>Um sistema robusto e interativo para gerenciamento de uma biblioteca pessoal ou acervo, totalmente operado via linha de comando.</p>
 
-Listar Obras: Exibe todos os livros cadastrados no acervo, com seus respectivos detalhes.
+</div>
 
-Adicionar Nova Obra: Permite o cadastro de um novo livro, solicitando se é uma obra física (com número de cópias e dimensões) ou digital (com formato de arquivo e tamanho em MB).
+🎯 Sobre o Projeto
+Este projeto é uma aplicação de console desenvolvida em Java que simula um sistema de gerenciamento para uma biblioteca. Ele permite a manipulação completa de um acervo de livros, tratando de forma distinta as obras físicas e digitais, cada uma com suas particularidades. A interface é simples e direta, guiando o usuário através de um menu numérico para executar todas as operações.
 
-Buscar por Obra: Realiza uma busca por título e, opcionalmente, filtra os resultados pelo nome do autor.
+✨ Funcionalidades Principais
+📖 Cadastro Inteligente: Adicione novas obras ao acervo, especificando se são físicas (com detalhes de cópias e dimensões) ou digitais (com formato e tamanho de arquivo).
 
-Excluir uma Obra: Remove um livro do acervo a partir de uma lista numerada.
+📑 Listagem Completa: Visualize todos os livros cadastrados com suas informações detalhadas em uma lista organizada.
 
-Modificar Dados: Permite atualizar as informações de um livro já cadastrado.
+🔍 Pesquisa Avançada: Encontre obras de forma rápida pesquisando por título e refinando a busca pelo nome do autor.
 
-Consultar por Período: Filtra e exibe os livros publicados dentro de um intervalo de anos especificado.
+🔄 Atualização de Dados: Modifique as informações de qualquer livro já existente no sistema.
 
-Ver Obra Mais Antiga/Recente: Mostra qual é o livro com o ano de publicação mais antigo e o mais recente no acervo.
+🗑️ Remoção Segura: Exclua livros do acervo de maneira simples e segura através de um seletor numérico.
 
-Contagem Total: Informa a quantidade total de livros cadastrados.
+📅 Filtro por Período: Consulte quais obras foram publicadas em um determinado intervalo de anos.
 
-💻 Tecnologias Utilizadas
-Java: O projeto é inteiramente construído em Java puro, sem a necessidade de bibliotecas ou frameworks externos.
+📊 Relatórios Rápidos: Obtenha instantaneamente a obra mais antiga, a mais recente e a contagem total de itens no acervo.
 
-JDK 11 (ou superior): Compilado e testado com versões modernas do Java Development Kit.
+🛠️ Tecnologias Utilizadas
+O projeto foi construído utilizando tecnologias fundamentais e amplamente conhecidas no ecossistema de desenvolvimento:
 
-🚀 Como Executar o Projeto
-Para compilar e executar o projeto, você precisará ter o JDK (Java Development Kit) instalado em sua máquina.
+Java Development Kit (JDK): Versão 11 ou superior.
 
-Clone ou Baixe o Repositório
-Coloque todos os arquivos .java na mesma pasta. A estrutura deve ser a seguinte:
+Programação Orientada a Objetos (POO): Conceitos como Herança, Polimorfismo e Encapsulamento foram aplicados para modelar o sistema.
 
-/seu-projeto
-├── Biblioteca.java
-├── Input.java
-├── Livro.java
-├── LivroDigital.java
-├── LivroFisico.java
-└── Main.java
-Abra o Terminal ou Prompt de Comando
-Navegue até o diretório onde você salvou os arquivos.
+🚀 Como Executar
+Para colocar o sistema em funcionamento, siga os passos abaixo. É necessário ter o JDK instalado em sua máquina.
 
-Bash
+Preparação do Ambiente
 
-cd caminho/para/seu-projeto
-Compile os Arquivos Java
-Execute o seguinte comando para compilar todos os arquivos .java de uma vez:
+Certifique-se de que todos os arquivos .java estão no mesmo diretório.
+
+Compilação via Terminal
+
+Abra seu terminal (CMD, PowerShell, etc.), navegue até a pasta do projeto e execute o comando:
 
 Bash
 
 javac *.java
-Isso irá gerar os arquivos .class correspondentes.
+Execução do Programa
 
-Execute o Programa
-Após a compilação bem-sucedida, execute a classe principal (Main):
+Após a compilação, execute a classe principal para iniciar o sistema:
 
 Bash
 
 java Main
-Pronto! O menu do sistema aparecerá no console e você poderá começar a usar as funcionalidades.
+Pronto!
 
-📂 Estrutura do Código
-Main.java: Classe principal que contém o método main. Responsável por exibir o menu, interagir com o usuário e chamar os métodos apropriados.
+O menu principal será exibido no console, e o sistema estará pronto para uso.
 
-Biblioteca.java: O "coração" do sistema. Gerencia a lista de livros (o acervo) e contém toda a lógica para adicionar, remover, pesquisar e manipular os dados.
-
-Input.java: Classe utilitária para capturar e validar as entradas do usuário (strings, inteiros, doubles), tratando possíveis erros.
-
-Livro.java: Classe abstrata que serve como modelo base para todos os tipos de livros, definindo atributos e métodos comuns.
-
-LivroFisico.java: Subclasse que herda de Livro e representa um livro físico, com atributos específicos como quantidade de cópias e dimensões.
-
-LivroDigital.java: Subclasse que herda de Livro e representa um livro digital, com atributos como formato do arquivo e tamanho.
+👨‍💻 Autor
+<p>
+<img src="https://avatars.githubusercontent.com/u/10279113?v=4" width="100px;" alt="Foto de Perfil Genérica"/>
+<br />
+<sub>
+<b>Vinícius de Almeida Noetzold</b>
+<br />
+<b>RA:</b> 1138554
+</sub>
+</p>
