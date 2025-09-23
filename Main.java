@@ -2,246 +2,241 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static Biblioteca biblioteca = new Biblioteca();
-    private static Scanner scan = new Scanner(System.in);
+    private static Biblioteca acervo = new Biblioteca();
+    private static Scanner leitor = new Scanner(System.in);
 
     public static void main(String[] args) {
-        String menu = """
-                === Sistema Biblioteca ===
-                Escolha uma das opções abaixo:
-                1 - Adicionar Livro
-                2 - Listar Acervo
-                3 - Pesquisar Livro
-                4 - Atualizar Livro
-                5 - Remover Livro
-                6 - Contar Livros
-                7 - Pesquisar por intervalo de anos
-                8 - Livro mais antigo
-                9 - Livro mais novo
-                0 - Sair
+        String opcoesMenu = """
+                *** Gerenciador de Acervo Cultural ***
+                Selecione a operação desejada:
+                1 - Listar todas as obras
+                2 - Adicionar nova obra
+                3 - Buscar por obra específica
+                4 - Excluir uma obra
+                5 - Modificar dados de uma obra
+                6 - Consultar por período de publicação
+                7 - Ver obra mais antiga
+                8 - Ver obra mais recente
+                9 - Mostrar quantidade total de obras
+                0 - Finalizar programa
                 """;
-        int opcao;
+        int escolha;
         do {
-            System.out.println(menu);
-            opcao = Input.scanInt("Digite sua escolha: ", scan);
-            switch (opcao) {
+            System.out.println(opcoesMenu);
+            escolha = Input.lerInt("Digite sua opção: ", leitor);
+            switch (escolha) {
                 case 1:
-                    cadastrarLivro();
-                    System.out.println("Pressione Enter para continuar");
-                    scan.nextLine();
+                    listarColecao();
+                    pausar();
                     break;
                 case 2:
-                    listarAcervo();
-                    System.out.println("Pressione Enter para continuar");
-                    scan.nextLine();
+                    registrarNovaObra();
+                    pausar();
                     break;
                 case 3:
-                    pesquisarLivro();
-                    System.out.println("Pressione Enter para continuar");
-                    scan.nextLine();
+                    consultarObra();
+                    pausar();
                     break;
                 case 4:
-                    atualizarLivro();
-                    System.out.println("Pressione Enter para continuar");
-                    scan.nextLine();
+                    removerObra();
+                    pausar();
                     break;
                 case 5:
-                    removerLivro();
-                    System.out.println("Pressione Enter para continuar");
-                    scan.nextLine();
+                    atualizarObra();
+                    pausar();
                     break;
                 case 6:
-                    contarLivros();
-                    System.out.println("Pressione Enter para continuar");
-                    scan.nextLine();
+                    pesquisarPorPeriodo();
+                    pausar();
                     break;
                 case 7:
-                    pesquisarPorAno();
-                    System.out.println("Pressione Enter para continuar");
-                    scan.nextLine();
+                    mostrarObraMaisAntiga();
+                    pausar();
                     break;
                 case 8:
-                    livroMaisAntigo();
-                    System.out.println("Pressione Enter para continuar");
-                    scan.nextLine();
+                    mostrarObraMaisRecente();
+                    pausar();
                     break;
                 case 9:
-                    livroMaisNovo();
-                    System.out.println("Pressione Enter para continuar");
-                    scan.nextLine();
+                    exibirContagemObras();
+                    pausar();
                     break;
                 case 0:
-                    System.out.println("Volte Sempre!!!");
+                    System.out.println("Sistema finalizado.");
                     break;
                 default:
-                    System.out.println("Opção Inválida!");
+                    System.out.println("Opção não reconhecida!");
                     break;
             }
-        } while (opcao != 0);
+        } while (escolha != 0);
+    }
+    
+    private static void pausar(){
+        System.out.println("Pressione Enter para prosseguir...");
+        leitor.nextLine();
     }
 
-    private static void cadastrarLivro() {
-        String titulo = Input.scanString("Digite o Título: ", scan);
-        String autor = Input.scanString("Digite o Autor: ", scan);
-        int anoPublicacao = Input.scanInt("Digite o ano de publicação: ", scan);
-        int numeroPaginas = Input.scanInt("Digite o número de páginas: ", scan);
-        int tipoLivro = Input.scanInt("Livro Físico(1) Livro Digital(2): ", scan);
-        Livro novoLivro;
-        if (tipoLivro == 1){
-            int numeroExemplares = Input.scanInt("Digite o número de exemplares: ", scan);
-            String dimensoes = Input.scanString("Digite as dimensões (LxAxP): ", scan);
-            novoLivro = new LivroFisico(titulo, autor, anoPublicacao, numeroPaginas, numeroExemplares, dimensoes);
-        }
-        else{
-            String formatoArquivo = Input.scanString("Digite o formato do arquivo (ex: PDF, EPUB): ", scan);
-            double tamanhoArquivo = Input.scanDouble("Digite o tamanho do arquivo (MB): ", scan);
-            novoLivro = new LivroDigital(titulo, autor, anoPublicacao, numeroPaginas, formatoArquivo, tamanhoArquivo);
-        }
-        try {
-            biblioteca.adicionar(novoLivro);
-            System.out.println("Livro adicionado com sucesso.");
-        } catch (Exception e) {
-            System.out.println("Erro: " + e.getMessage());
-        }
-    }
-
-    private static void listarAcervo() {
-        var acervo = biblioteca.pesquisar();
-        imprimirLista(acervo);
-    }
-
-    private static void pesquisarLivro() {
-        String titulo = Input.scanString("Digite o título que procuras: ", scan);
-        String pesquisaAutor = Input.scanString(
-            "Deseja pesquiar por autor? (S/N) ", scan);
-        List<Livro> livros;
-        if (pesquisaAutor.toLowerCase().charAt(0) == 's'){
-            String autor = Input.scanString("Digite o nome do autor: ", scan);
-            livros = biblioteca.pesquisar(titulo, autor);
+    private static void registrarNovaObra() {
+        String nomeObra = Input.lerString("Informe o nome da obra: ", leitor);
+        String escritor = Input.lerString("Informe o escritor(a): ", leitor);
+        int anoEdicao = Input.lerInt("Informe o ano da edição: ", leitor);
+        int totalPaginas = Input.lerInt("Informe o total de páginas: ", leitor);
+        int tipoObra = Input.lerInt("Tipo: (1) Impressa ou (2) Digital: ", leitor);
+        
+        Livro novaObra;
+        if (tipoObra == 1){
+            int quantidadeCopias = Input.lerInt("Informe a quantidade de cópias: ", leitor);
+            String medidas = Input.lerString("Informe as medidas (ex: 15x23cm): ", leitor);
+            novaObra = new LivroFisico(nomeObra, escritor, anoEdicao, totalPaginas, quantidadeCopias, medidas);
         } else {
-            livros = biblioteca.pesquisar(titulo);
+            String formato = Input.lerString("Informe o formato do arquivo (ex: PDF, EPUB): ", leitor);
+            double tamanho = Input.lerDouble("Informe o tamanho do arquivo (em MB): ", leitor);
+            novaObra = new LivroDigital(nomeObra, escritor, anoEdicao, totalPaginas, formato, tamanho);
         }
-        imprimirLista(livros);
-    }
-
-    private static void imprimirLista(List<Livro> acervo) {
-    if (acervo == null || acervo.isEmpty())
-        System.out.println("Nenhum Livro Encontrado");
-    else {
-        System.out.println("Livros Encontrados");
-        for (int i = 0; i < acervo.size(); i++) {
-            Livro l = acervo.get(i);
-            System.out.println("Livro " + (i + 1) + " (" + l.getTipoLivro() + "): " + l);
+        
+        try {
+            acervo.incluirItem(novaObra);
+            System.out.println("Obra registrada com sucesso!");
+        } catch (Exception e) {
+            System.out.println("Falha ao registrar: " + e.getMessage());
         }
     }
-}
 
-     private static void removerLivro() {
-        var acervo = biblioteca.pesquisar(); 
-        if (acervo.isEmpty()) {
-            System.out.println("Nenhum livro no acervo para remover.");
+    private static void listarColecao() {
+        var colecao = acervo.listarTodos();
+        exibirResultados(colecao);
+    }
+
+    private static void consultarObra() {
+        String nomeObra = Input.lerString("Digite o nome da obra para buscar: ", leitor);
+        String buscarPorEscritor = Input.lerString(
+            "Filtrar por escritor? (S/N) ", leitor);
+            
+        List<Livro> obras;
+        if (buscarPorEscritor.equalsIgnoreCase("s")){
+            String escritor = Input.lerString("Digite o nome do escritor: ", leitor);
+            obras = acervo.buscar(nomeObra, escritor);
+        } else {
+            obras = acervo.buscar(nomeObra);
+        }
+        exibirResultados(obras);
+    }
+
+    private static void exibirResultados(List<Livro> colecao) {
+        if (colecao == null || colecao.isEmpty()) {
+            System.out.println("Nenhuma obra foi encontrada.");
+        } else {
+            System.out.println("--- Obras Encontradas ---");
+            for (int i = 0; i < colecao.size(); i++) {
+                Livro obra = colecao.get(i);
+                System.out.println("Item " + (i + 1) + " (" + obra.getCategoriaObra() + "): " + obra);
+            }
+            System.out.println("-------------------------");
+        }
+    }
+
+     private static void removerObra() {
+        var colecao = acervo.listarTodos(); 
+        if (colecao.isEmpty()) {
+            System.out.println("O acervo está vazio. Nenhuma obra para remover.");
             return;
         }
 
-        imprimirLista(acervo);
+        exibirResultados(colecao);
 
-        int indice = Input.scanInt("Digite o número do livro que deseja remover: ", scan);
-        if (indice < 1 || indice > acervo.size()) {
-            System.out.println("Opção inválida!");
+        int indice = Input.lerInt("Digite o número do item que deseja excluir: ", leitor);
+        if (indice < 1 || indice > colecao.size()) {
+            System.out.println("Seleção inválida!");
             return;
         }
 
         try {
-            biblioteca.remover(indice - 1); 
-            System.out.println("Livro removido com sucesso!");
+            acervo.removerItem(indice - 1); 
+            System.out.println("Obra excluída com sucesso!");
         } catch (Exception e) {
-            System.out.println("Erro ao remover: " + e.getMessage());
+            System.out.println("Erro ao excluir: " + e.getMessage());
         }
     }
 
-    private static void atualizarLivro() {
-    String titulo = Input.scanString("Digite o título do livro que quer atualizar: ", scan);
-    List<Livro> encontrados = biblioteca.pesquisar(titulo);
+    private static void atualizarObra() {
+        String nomeObra = Input.lerString("Digite o nome da obra que deseja modificar: ", leitor);
+        List<Livro> encontradas = acervo.buscar(nomeObra);
 
-    if (encontrados.isEmpty()) {
-        System.out.println("Nenhum livro encontrado com esse título.");
-        return;
+        if (encontradas.isEmpty()) {
+            System.out.println("Nenhuma obra encontrada com este nome.");
+            return;
+        }
+
+        exibirResultados(encontradas);
+
+        int escolha = Input.lerInt("Digite o número do item para atualizar: ", leitor);
+        if (escolha < 1 || escolha > encontradas.size()) {
+            System.out.println("Seleção inválida!");
+            return;
+        }
+
+        Livro obraParaAtualizar = encontradas.get(escolha - 1);
+        
+        System.out.println("Deixe em branco para manter a informação atual.");
+        String novoNome = Input.lerString("Novo nome: ", leitor);
+        if (!novoNome.isEmpty()) obraParaAtualizar.setNomeObra(novoNome);
+
+        String novoEscritor = Input.lerString("Novo escritor: ", leitor);
+        if (!novoEscritor.isEmpty()) obraParaAtualizar.setEscritor(novoEscritor);
+
+        String novoAno = Input.lerString("Novo ano da edição: ", leitor);
+        if (!novoAno.isEmpty()) obraParaAtualizar.setAnoEdicao(Integer.parseInt(novoAno));
+
+        String novasPgs = Input.lerString("Novo total de páginas: ", leitor);
+        if (!novasPgs.isEmpty()) obraParaAtualizar.setTotalPaginas(Integer.parseInt(novasPgs));
+
+        if (obraParaAtualizar instanceof LivroFisico impressa) {
+            String novasCopias = Input.lerString("Nova quantidade de cópias: ", leitor);
+            if (!novasCopias.isEmpty()) impressa.setQuantidadeCopias(Integer.parseInt(novasCopias));
+
+            String novasMedidas = Input.lerString("Novas medidas (ex: 15x23cm): ", leitor);
+            if (!novasMedidas.isEmpty()) impressa.setMedidasFisicas(novasMedidas);
+
+        } else if (obraParaAtualizar instanceof LivroDigital digital) {
+            String novoFormato = Input.lerString("Novo formato do arquivo: ", leitor);
+            if (!novoFormato.isEmpty()) digital.setTipoDeArquivo(novoFormato);
+
+            String novoTamanho = Input.lerString("Novo tamanho do arquivo (MB): ", leitor);
+            if (!novoTamanho.isEmpty()) digital.setTamanhoEmMB(Double.parseDouble(novoTamanho));
+        }
+
+        System.out.println("Obra atualizada com sucesso!");
+        System.out.println("Resultado: " + obraParaAtualizar);
     }
-
-    imprimirLista(encontrados);
-
-    int escolha = Input.scanInt("Digite o número do livro que deseja atualizar: ", scan);
-    if (escolha < 1 || escolha > encontrados.size()) {
-        System.out.println("Opção inválida!");
-        return;
-    }
-
-    Livro livroParaAtualizar = encontrados.get(escolha - 1);
-
     
-    String novoTitulo = Input.scanString("Novo título: ", scan);
-    if (!novoTitulo.isEmpty()) livroParaAtualizar.setTitulo(novoTitulo);
-
-    String novoAutor = Input.scanString("Novo autor: ", scan);
-    if (!novoAutor.isEmpty()) livroParaAtualizar.setAutor(novoAutor);
-
-    String novoAno = Input.scanString("Novo ano de publicação: ", scan);
-    if (!novoAno.isEmpty()) livroParaAtualizar.setAnoPublicacao(Integer.parseInt(novoAno));
-
-    String novoPg = Input.scanString("Novo número de páginas: ", scan);
-    if (!novoPg.isEmpty()) livroParaAtualizar.setNumeroPaginas(Integer.parseInt(novoPg));
-
-
-    if (livroParaAtualizar instanceof LivroFisico fisico) {
-        String novosExemplares = Input.scanString("Novo número de exemplares: ", scan);
-        if (!novosExemplares.isEmpty()) fisico.setNumeroExemplares(Integer.parseInt(novosExemplares));
-
-        String novasDimensoes = Input.scanString("Novas dimensões (LxAxP): ", scan);
-        if (!novasDimensoes.isEmpty()) fisico.setDimensoes(novasDimensoes);
-
-    } else if (livroParaAtualizar instanceof LivroDigital digital) {
-        String novoFormato = Input.scanString("Novo formato do arquivo: ", scan);
-        if (!novoFormato.isEmpty()) digital.setFormatoArquivo(novoFormato);
-
-        String novoTam = Input.scanString("Novo tamanho do arquivo (MB): ", scan);
-        if (!novoTam.isEmpty()) digital.setTamanhoArquivo(Double.parseDouble(novoTam));
+    private static void exibirContagemObras() {
+        int total = acervo.getQuantidadeTotal();
+        System.out.println("O acervo possui um total de: " + total + " obras.");
     }
 
-    System.out.println("Livro atualizado com sucesso!");
-    System.out.println(livroParaAtualizar);
-}
+    private static void pesquisarPorPeriodo() {
+        int inicio = Input.lerInt("Informe o ano inicial da busca: ", leitor);
+        int fim = Input.lerInt("Informe o ano final da busca: ", leitor);
+
+        List<Livro> encontradas = acervo.buscarPorIntervaloDeAnos(inicio, fim);
+        exibirResultados(encontradas);
+    }
     
-    private static void contarLivros() {
-        int total = biblioteca.contarLivros();
-        System.out.println("Total de livros no acervo: " + total);
-    }
-
-    private static void pesquisarPorAno() {
-        int inicio = Input.scanInt("Digite o ano inicial: ", scan);
-        int fim = Input.scanInt("Digite o ano final: ", scan);
-
-        List<Livro> encontrados = biblioteca.pesquisarPorAno(inicio, fim);
-        imprimirLista(encontrados);
-    }
-
-    
-    private static void livroMaisAntigo() {
-        Livro antigo = biblioteca.livroMaisAntigo();
-        if (antigo == null) {
-            System.out.println("Nenhum livro no acervo.");
+    private static void mostrarObraMaisAntiga() {
+        Livro antiga = acervo.obterObraMaisAntiga();
+        if (antiga == null) {
+            System.out.println("O acervo está vazio.");
         } else {
-            System.out.println("Livro mais antigo: " + antigo);
+            System.out.println("Obra mais antiga do acervo: " + antiga);
         }
     }
 
-    private static void livroMaisNovo() {
-        Livro novo = biblioteca.livroMaisNovo();
-        if (novo == null) {
-            System.out.println("Nenhum livro no acervo.");
+    private static void mostrarObraMaisRecente() {
+        Livro recente = acervo.obterObraMaisRecente();
+        if (recente == null) {
+            System.out.println("O acervo está vazio.");
         } else {
-            System.out.println("Livro mais novo: " + novo);
+            System.out.println("Obra mais recente do acervo: " + recente);
         }
     }
-
 }
-

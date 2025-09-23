@@ -1,46 +1,44 @@
 public final class LivroDigital extends Livro {
-    private String formatoArquivo;
-    private double tamanhoArquivo;
+    private double tamanhoEmMB;
+    private String tipoDeArquivo;
 
-    public LivroDigital(String titulo, String autor, int anoPublicacao, int numeroPaginas, String formatoArquivo, double tamanhoArquivo) {
-         
-        super(titulo, autor, anoPublicacao, numeroPaginas);
-        this.formatoArquivo = formatoArquivo;
-        this.tamanhoArquivo = tamanhoArquivo;
+    public LivroDigital(String nomeObra, String escritor, int anoEdicao, int totalPaginas, String tipoDeArquivo, double tamanhoEmMB) {
+        super(nomeObra, escritor, anoEdicao, totalPaginas);
+        this.tipoDeArquivo = tipoDeArquivo;
+        this.tamanhoEmMB = tamanhoEmMB;
     }
 
     public LivroDigital() {
     }
-
-    public String getFormatoArquivo() {
-        return formatoArquivo;
-    }
-
-    public void setFormatoArquivo(String formatoArquivo) {
-        this.formatoArquivo = formatoArquivo;
-    }
-
-    public double getTamanhoArquivo() {
-        return tamanhoArquivo;
-    }
-
-    public void setTamanhoArquivo(double tamanhoArquivo) {
-        this.tamanhoArquivo = tamanhoArquivo;
+    
+    @Override
+    public String getCategoriaObra() {
+        return "Obra Digital";
     }
 
     @Override
     public String toString() {
-    return "Título = " + getTitulo() +
-           ", Autor = " + getAutor() +
-           ", Ano de Publicação = " + getAnoPublicacao() +
-           ", Número de Páginas = " + getNumeroPaginas() +
-           ", Formato do Arquivo = " + formatoArquivo +
-           ", Tamanho do Arquivo = " + tamanhoArquivo + " MB";
-}
-
-    @Override
-    public String getTipoLivro() {
-        return "Livro Digital";
+        return "Nome da Obra = " + getNomeObra() +
+           ", Escritor = " + getEscritor() +
+           ", Ano da Edição = " + getAnoEdicao() +
+           ", Qtd. Páginas = " + getTotalPaginas() +
+           ", Formato = " + tipoDeArquivo +
+           ", Tamanho (MB) = " + tamanhoEmMB;
     }
 
+    public String getTipoDeArquivo() {
+        return tipoDeArquivo;
+    }
+
+    public void setTipoDeArquivo(String tipoDeArquivo) {
+        this.tipoDeArquivo = tipoDeArquivo;
+    }
+
+    public double getTamanhoEmMB() {
+        return tamanhoEmMB;
+    }
+
+    public void setTamanhoEmMB(double tamanhoEmMB) {
+        this.tamanhoEmMB = tamanhoEmMB;
+    }
 }

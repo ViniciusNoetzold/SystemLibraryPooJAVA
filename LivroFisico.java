@@ -1,45 +1,44 @@
 public final class LivroFisico extends Livro {
-    private int numeroExemplares;
-    private String dimensoes;
+    private String medidasFisicas;
+    private int quantidadeCopias;
 
+    public LivroFisico(String nomeObra, String escritor, int anoEdicao, int totalPaginas, int quantidadeCopias, String medidasFisicas) {
+        super(nomeObra, escritor, anoEdicao, totalPaginas);
+        this.quantidadeCopias = quantidadeCopias;
+        this.medidasFisicas = medidasFisicas;
+    }
+    
     public LivroFisico() {
     }
 
-    
-    public LivroFisico(String titulo, String autor, int anoPublicacao, int numeroPaginas, int numeroExemplares,
-            String dimensoes) {
-        super(titulo, autor, anoPublicacao, numeroPaginas);
-        this.numeroExemplares = numeroExemplares;
-        this.dimensoes = dimensoes;
+    @Override
+    public String getCategoriaObra() {
+        return "Obra Impressa";
     }
-
-
-    public int getNumeroExemplares() {
-        return numeroExemplares;
-    }
-    public void setNumeroExemplares(int numeroExemplares) {
-        this.numeroExemplares = numeroExemplares;
-    }
-    public String getDimensoes() {
-        return dimensoes;
-    }
-    public void setDimensoes(String dimensoes) {
-        this.dimensoes = dimensoes;
-    }
-    
-           @Override
-        public String toString() {
-        return "Título = " + getTitulo() +
-           ", Autor = " + getAutor() +
-           ", Ano de Publicação = " + getAnoPublicacao() +
-           ", Número de Páginas = " + getNumeroPaginas() +
-           ", Número de Exemplares = " + numeroExemplares +
-           ", Dimensões = " + dimensoes;
-}
 
     @Override
-    public String getTipoLivro() {
-        return "Livro Físico";
+    public String toString() {
+        return "Nome da Obra = " + getNomeObra() +
+           ", Escritor = " + getEscritor() +
+           ", Ano da Edição = " + getAnoEdicao() +
+           ", Qtd. Páginas = " + getTotalPaginas() +
+           ", Qtd. de Cópias = " + quantidadeCopias +
+           ", Medidas = " + medidasFisicas;
     }
 
+    public int getQuantidadeCopias() {
+        return quantidadeCopias;
+    }
+
+    public void setQuantidadeCopias(int quantidadeCopias) {
+        this.quantidadeCopias = quantidadeCopias;
+    }
+
+    public String getMedidasFisicas() {
+        return medidasFisicas;
+    }
+
+    public void setMedidasFisicas(String medidasFisicas) {
+        this.medidasFisicas = medidasFisicas;
+    }
 }

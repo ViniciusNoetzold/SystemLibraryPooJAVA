@@ -1,43 +1,43 @@
 import java.util.Scanner;
 
 public class Input {
-    public static int scanInt(String message, Scanner scan) {
+    public static String lerString(String prompt, Scanner leitor) {
+        while (true) {
+            System.out.print(prompt);
+            String entrada = leitor.nextLine();
+            entrada = entrada.trim();
+
+            if (entrada.isEmpty())
+                System.out.println("Entrada inválida! O campo não pode ser vazio.");
+            else
+                return entrada;
+        }
+    }
+
+    public static int lerInt(String prompt, Scanner leitor) {
         while (true) {
             try {
-                System.out.print(message);
-                int value = scan.nextInt();
-                return value;
+                System.out.print(prompt);
+                int valor = leitor.nextInt();
+                return valor;
             } catch (Exception e) {
-                System.out.println("Valor Inválido! Digite um número inteiro");
+                System.out.println("Entrada inválida! Por favor, digite um número inteiro.");
             } finally {
-                scan.nextLine();
+                leitor.nextLine();
             }
         }
     }
 
-    public static String scanString(String message, Scanner scan){
-        while (true) {
-            System.out.print(message);
-            String value = scan.nextLine();
-            value = value.trim();
-
-            if (value.isEmpty())
-                System.out.println("Valor Inválido!!!");
-            else
-                return value;
-        }
-    }
-
-    public static double scanDouble(String message, Scanner scan) {
+    public static double lerDouble(String prompt, Scanner leitor) {
         while (true) {
             try {
-                System.out.print(message);
-                double value = scan.nextDouble();
-                return value;
+                System.out.print(prompt);
+                double valor = leitor.nextDouble();
+                return valor;
             } catch (Exception e) {
-                System.out.println("Valor Inválido! Digite um número inteiro");
+                System.out.println("Entrada inválida! Por favor, digite um número.");
             } finally {
-                scan.nextLine();
+                leitor.nextLine();
             }
         }
     }

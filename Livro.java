@@ -1,58 +1,66 @@
 import java.time.LocalDate;
 
 public abstract class Livro {
-    private String titulo;
-    private String autor;
-    private int anoPublicacao;
-    private int numeroPaginas;
+    private String nomeObra;
+    private String escritor;
+    private int totalPaginas;
+    private int anoEdicao;
+
+    public Livro(String nomeObra, String escritor, int anoEdicao, int totalPaginas) {
+        this.nomeObra = nomeObra;
+        this.escritor = escritor;
+        this.anoEdicao = anoEdicao;
+        this.totalPaginas = totalPaginas;
+    }
 
     public Livro(){
 
     }
-
-    public Livro(String titulo, String autor, int anoPublicacao, int numeroPaginas) {
-        this.titulo = titulo;
-        this.autor = autor;
-        this.anoPublicacao = anoPublicacao;
-        this.numeroPaginas = numeroPaginas;
-    }
-    public String getTitulo() {
-        return titulo;
-    }
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-    public String getAutor() {
-        return autor;
-    }
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-    public int getAnoPublicacao() {
-        return anoPublicacao;
-    }
-    public void setAnoPublicacao(int anoPublicacao) {
-        this.anoPublicacao = anoPublicacao;
-    }
-    public int getNumeroPaginas() {
-        return numeroPaginas;
-    }
-    public void setNumeroPaginas(int numeroPaginas) {
-        this.numeroPaginas = numeroPaginas;
-    }
-
     
+    public final int calcularTempoDesdePublicacao(){
+        int anoCorrente = LocalDate.now().getYear();
+        return anoCorrente - this.anoEdicao;
+    }
+
+    public abstract String getCategoriaObra();
+
+    @Override
     public String toString() {
-        return "Titulo=" + titulo 
-                + ", autor=" + autor 
-                + ", anoPublicacao=" + anoPublicacao 
-                + ", numeroPaginas=" + numeroPaginas;
-    }
-    
-    public final int getTempoPublicacao(){
-        int anoAtual = LocalDate.now().getYear();
-        return anoAtual - this.anoPublicacao;
+        return "Obra=" + nomeObra 
+                + ", Escritor=" + escritor 
+                + ", Ano da Edição=" + anoEdicao 
+                + ", Total de Páginas=" + totalPaginas;
     }
 
-    public abstract String getTipoLivro();
+    public String getNomeObra() {
+        return nomeObra;
+    }
+
+    public void setNomeObra(String nomeObra) {
+        this.nomeObra = nomeObra;
+    }
+
+    public String getEscritor() {
+        return escritor;
+    }
+
+    public void setEscritor(String escritor) {
+        this.escritor = escritor;
+    }
+
+    public int getAnoEdicao() {
+        return anoEdicao;
+    }
+
+    public void setAnoEdicao(int anoEdicao) {
+        this.anoEdicao = anoEdicao;
+    }
+
+    public int getTotalPaginas() {
+        return totalPaginas;
+    }
+
+    public void setTotalPaginas(int totalPaginas) {
+        this.totalPaginas = totalPaginas;
+    }
 }

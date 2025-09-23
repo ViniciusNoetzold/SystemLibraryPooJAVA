@@ -4,99 +4,97 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Biblioteca {
-    private static final int ANO_PUBLICACAO_MINIMO = 1900;
-    private List<Livro> acervo;
-    
+    private List<Livro> colecaoDeObras;
+    private static final int ANO_MINIMO_PUBLICACAO = 1900;
 
     public Biblioteca() {
-        this.acervo = new ArrayList<>();
+        this.colecaoDeObras = new ArrayList<>();
     }
+    
+    public Livro incluirItem(Livro obra) throws Exception {
+        if (obra == null)
+            throw new Exception("O item não pode ser nulo.");
 
-    public Livro adicionar(Livro livro) throws Exception {
-        if (livro == null)
-            throw new Exception("Livro não pode ser nulo");
+        obra.setNomeObra(obra.getNomeObra().trim());
+        if (obra.getNomeObra() == null || obra.getNomeObra().isEmpty())
+            throw new Exception("O nome da obra não pode ser vazio.");
 
-        livro.setTitulo(livro.getTitulo().trim());
-        if (livro.getTitulo() == null || livro.getTitulo().isEmpty())
-            throw new Exception("Título não pode ser em branco");
+        obra.setEscritor(obra.getEscritor().trim());
+        if (obra.getEscritor() == null || obra.getEscritor().isEmpty())
+            throw new Exception("O nome do escritor não pode ser vazio.");
 
-        livro.setAutor(livro.getAutor().trim());
-        if (livro.getAutor() == null || livro.getAutor().isEmpty())
-            throw new Exception("Autor não pode ser em branco");
+        int anoCorrente = LocalDate.now().getYear();
+        if (obra.getAnoEdicao() < ANO_MINIMO_PUBLICACAO || obra.getAnoEdicao() > anoCorrente)
+            throw new Exception("O ano da edição deve ser entre 1900 e o ano atual.");
 
-        int anoAtual = LocalDate.now().getYear();
-        if (livro.getAnoPublicacao() < ANO_PUBLICACAO_MINIMO || livro.getAnoPublicacao() > anoAtual)
-            throw new Exception("Ano de publicação deve estar entre 1900 e o ano atual");
+        if (obra.getTotalPaginas() <= 0)
+            throw new Exception("A quantidade de páginas deve ser positiva.");
 
-        if (livro.getNumeroPaginas() <= 0)
-            throw new Exception("Número de páginas deve ser maior que zero");
-
-        
-        for (Livro l : acervo) {
-            if (l.getTitulo().equalsIgnoreCase(livro.getTitulo()) &&
-                l.getAutor().equalsIgnoreCase(livro.getAutor()) &&
-                l.getAnoPublicacao() == livro.getAnoPublicacao()) {
-                throw new Exception("Livro já cadastrado (mesmo título, autor e ano).");
+        for (Livro item : colecaoDeObras) {
+            if (item.getNomeObra().equalsIgnoreCase(obra.getNomeObra()) &&
+                item.getEscritor().equalsIgnoreCase(obra.getEscritor()) &&
+                item.getAnoEdicao() == obra.getAnoEdicao()) {
+                throw new Exception("Obra já existente na coleção (mesmo nome, escritor e ano).");
             }
         }
 
-        acervo.add(livro);
-        return livro;
+        colecaoDeObras.add(obra);
+        return obra;
     }
 
-    public List<Livro> pesquisar() {
-        return acervo;
+    public List<Livro> listarTodos() {
+        return colecaoDeObras;
     }
 
-    public List<Livro> pesquisar(String titulo) {
-        return pesquisar(titulo, null);
+    public List<Livro> buscar(String nomeObra) {
+        return buscar(nomeObra, null);
     }
 
-    public List<Livro> pesquisar(String titulo, String autor) {
-        List<Livro> livrosEncontrados = new ArrayList<>();
-        for (Livro livro : acervo) {
-            if (livro.getTitulo().toLowerCase().contains(titulo.toLowerCase())) {
-                if (autor == null || 
-                    livro.getAutor().toLowerCase().contains(autor.toLowerCase())) {
-                    livrosEncontrados.add(livro);
+    public List<Livro> buscar(String nomeObra, String escritor) {
+        List<Livro> obrasEncontradas = new ArrayList<>();
+        for (Livro obra : colecaoDeObras) {
+            if (obra.getNomeObra().toLowerCase().contains(nomeObra.toLowerCase())) {
+                if (escritor == null || 
+                    obra.getEscritor().toLowerCase().contains(escritor.toLowerCase())) {
+                    obrasEncontradas.add(obra);
                 }
             }
         }
-        return livrosEncontrados;
+        return obrasEncontradas;
     }
 
-    public void remover(int indice) {
-        if (indice < 0 || indice >= acervo.size()) {
-            throw new IndexOutOfBoundsException("Índice inválido para remoção!");
+    public void removerItem(int indice) {
+        if (indice < 0 || indice >= colecaoDeObras.size()) {
+            throw new IndexOutOfBoundsException("Índice de remoção fora dos limites!");
         }
-        acervo.remove(indice);
+        colecaoDeObras.remove(indice);
     }
 
-    public List<Livro> pesquisarPorAno(int anoInicio, int anoFim) {
+    public List<Livro> buscarPorIntervaloDeAnos(int anoInicial, int anoFinal) {
         List<Livro> encontrados = new ArrayList<>();
-        for (Livro l : acervo) {
-            if (l.getAnoPublicacao() >= anoInicio && l.getAnoPublicacao() <= anoFim) {
-                encontrados.add(l);
+        for (Livro obra : colecaoDeObras) {
+            if (obra.getAnoEdicao() >= anoInicial && obra.getAnoEdicao() <= anoFinal) {
+                encontrados.add(obra);
             }
         }
         return encontrados;
     }
-
-    public int contarLivros() {
-        return acervo.size();
-    }
-
-    public Livro livroMaisAntigo() {
-        if (acervo.isEmpty()) return null;
-        return acervo.stream()
-                     .min(Comparator.comparingInt(Livro::getAnoPublicacao))
+    
+    public Livro obterObraMaisAntiga() {
+        if (colecaoDeObras.isEmpty()) return null;
+        return colecaoDeObras.stream()
+                     .min(Comparator.comparingInt(Livro::getAnoEdicao))
                      .orElse(null);
     }
 
-    public Livro livroMaisNovo() {
-        if (acervo.isEmpty()) return null;
-        return acervo.stream()
-                     .max(Comparator.comparingInt(Livro::getAnoPublicacao))
+    public Livro obterObraMaisRecente() {
+        if (colecaoDeObras.isEmpty()) return null;
+        return colecaoDeObras.stream()
+                     .max(Comparator.comparingInt(Livro::getAnoEdicao))
                      .orElse(null);
+    }
+
+    public int getQuantidadeTotal() {
+        return colecaoDeObras.size();
     }
 }
